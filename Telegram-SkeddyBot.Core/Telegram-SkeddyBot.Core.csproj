@@ -9,8 +9,14 @@
 
   <ItemGroup>
     <Folder Include="Contracts\" />
-    <Folder Include="Handlers\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Telegram.Bot" Version="19.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Telegram-SkeddyBot.Data\Telegram-SkeddyBot.Data.csproj" />
   </ItemGroup>
 
 </Project>
