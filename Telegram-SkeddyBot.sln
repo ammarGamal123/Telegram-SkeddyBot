@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram-SkeddyBot.Api", "Telegram-SkeddyBot.Api\Telegram-SkeddyBot.Api.csproj", "{45ED3077-3FE2-4399-83FA-CB5B8D371582}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram-SkeddyBot.Core", "Telegram-SkeddyBot.Core\Telegram-SkeddyBot.Core.csproj", "{DC86D532-CCE0-4B69-A97D-006F946962FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram-SkeddyBot.Data", "Telegram-SkeddyBot.Data\Telegram-SkeddyBot.Data.csproj", "{5170BD28-C06A-4038-8802-E78740618E7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram-SkeddyBot.Infrastructure", "Telegram-SkeddyBot.Infrastructure\Telegram-SkeddyBot.Infrastructure.csproj", "{F1073E9E-2DB1-4A30-82CD-BF38B3EA0211}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45ED3077-3FE2-4399-83FA-CB5B8D371582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45ED3077-3FE2-4399-83FA-CB5B8D371582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45ED3077-3FE2-4399-83FA-CB5B8D371582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45ED3077-3FE2-4399-83FA-CB5B8D371582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC86D532-CCE0-4B69-A97D-006F946962FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC86D532-CCE0-4B69-A97D-006F946962FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC86D532-CCE0-4B69-A97D-006F946962FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC86D532-CCE0-4B69-A97D-006F946962FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5170BD28-C06A-4038-8802-E78740618E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5170BD28-C06A-4038-8802-E78740618E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5170BD28-C06A-4038-8802-E78740618E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5170BD28-C06A-4038-8802-E78740618E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1073E9E-2DB1-4A30-82CD-BF38B3EA0211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1073E9E-2DB1-4A30-82CD-BF38B3EA0211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1073E9E-2DB1-4A30-82CD-BF38B3EA0211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1073E9E-2DB1-4A30-82CD-BF38B3EA0211}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B859E54-DFC2-43F5-B14D-2F14B85E7A6F}
+	EndGlobalSection
+EndGlobal
