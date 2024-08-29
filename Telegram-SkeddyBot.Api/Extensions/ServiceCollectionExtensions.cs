@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot;
 using Telegram_SkeddyBot.Core.Contracts;
 using Telegram_SkeddyBot.Core.Handlers;
+using Telegram_SkeddyBot.Core.Helpers;
 using Telegram_SkeddyBot.Core.Services;
 using Telegram_SkeddyBot.Infrastructure.Configurations;
 
@@ -29,8 +30,13 @@ namespace Telegram_SkeddyBot.Api.Extensions
             // Register the core services
             services.AddSingleton<ITelegramBotService, TelegramBotService>();
 
+
             // Register the CommandHandler from Core
-            services.AddTransient<CommandHanlder>();
+            services.AddTransient<CommandHandler>();
+            services.AddSingleton<UserStateHandler>();
+            services.AddSingleton<ValidationHander>();
+            services.AddSingleton<MessageHandler>();
+
 
             // Configure BotConfiguration settings
             services.Configure<BotConfiguration>(options =>
