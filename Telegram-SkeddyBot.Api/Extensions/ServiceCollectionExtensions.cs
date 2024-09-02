@@ -14,7 +14,8 @@ namespace Telegram_SkeddyBot.Api.Extensions
         public static IServiceCollection AddTelegramBotServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Read the Token from the configuration
-            var botToken = configuration.GetSection("BotConfiguration").GetValue<string>("Token");
+            var botToken = configuration.GetSection("BotConfiguration")
+                                        .GetValue<string>("Token");
 
             if (string.IsNullOrEmpty(botToken))
             {
@@ -42,7 +43,8 @@ namespace Telegram_SkeddyBot.Api.Extensions
             services.Configure<BotConfiguration>(options =>
             {
                 options.Token = botToken;
-                options.WebHookUrl = configuration.GetSection("BotConfiguration").GetValue<string>("WebHookUrl");
+                options.WebHookUrl = configuration
+                       .GetSection("BotConfiguration").GetValue<string>("WebHookUrl");
             });
 
             return services;

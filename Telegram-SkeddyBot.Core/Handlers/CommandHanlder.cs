@@ -158,6 +158,13 @@ namespace Telegram_SkeddyBot.Core.Helpers
                     _userStateHandler.ClearUserState(userId);
                     break;
 
+                case var deleteData when deleteData.StartsWith("delete "):
+                    var eventIndex = int.Parse(deleteData.Substring(7));
+                    _userStateHandler.DeleteUserEvent(userId, eventIndex);
+                    await _messageHandler.SendTextMessageAsync(botClient, chatId, "Event deleted successfully!", null, cancellationToken);
+                    _userStateHandler.ClearUserState(userId);
+                    break;
+
                 default:
                     await botClient.AnswerCallbackQueryAsync(callbackQuery.Id, "Unknown action", cancellationToken: cancellationToken);
                     break;
@@ -166,5 +173,29 @@ namespace Telegram_SkeddyBot.Core.Helpers
             // Ensure the callback query is answered
             await botClient.AnswerCallbackQueryAsync(callbackQuery.Id, cancellationToken: cancellationToken);
         }
+
+
+        public async Task HandleDeleteCommandAsync(ITelegramBotClient botClient, long chatId, long userId, string message, CancellationToken cancellationToken)
+        {
+            // Step 1: If the list is empty, notify the user
+            var userEvents = _userStateHandler.GetUserEvents(userId);
+
+            if (!userEvents.Any())
+            {
+                await _messageHandler.SendTextMessageAsync
+                    (botClient, chatId, "You have no Events yet", null, cancellationToken);
+                return;
+            }
+
+            // Step 2: If there are events, display them with inline keyboard options
+            var inlineKeyboardsButtons = userEvents.Select((userEvent, index) =>
+            InlineKeyboardButton.WithCallbackData($"{userEvent.eventMessage} at {userEvent.scheduleTime} ", $"delete {index}"))
+                .ToArray();
+
+            var inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardsButtons);
+
+            await _messageHandler.SendTextMessageAsync(botClient, chatId, "Please select event to delete", inlineKeyboard, cancellationToken);
+        }
+
     }
 }

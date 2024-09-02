@@ -52,6 +52,8 @@ namespace Telegram_SkeddyBot.Core.Services
                 var user = update.Message.From;
                 var userId = user.Id;
 
+                Console.WriteLine($"Command: {message}\nUser: {user}\nUser ID: {userId}");
+
                 if (_userStateHandler.GetUserState(userId) != UserState.None)
                 {
                     await _commandHandler.HandleAddCommandAsync(botClient, update.Message.Chat.Id, userId, message, cancellationToken);
@@ -72,6 +74,10 @@ namespace Telegram_SkeddyBot.Core.Services
                         case "/list":
                             await _commandHandler.HandleListCommandAsync(botClient, update.Message.Chat.Id, userId, cancellationToken);
                             break;
+                        case "/delete":
+                            await _commandHandler.HandleDeleteCommandAsync(botClient, update.Message.Chat.Id, userId, message, cancellationToken);
+                            break;
+
                         default:
                             await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Unknown command. Type /help to see available commands.", cancellationToken: cancellationToken);
                             break;

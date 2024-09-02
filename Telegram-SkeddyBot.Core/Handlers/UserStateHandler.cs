@@ -58,5 +58,23 @@ namespace Telegram_SkeddyBot.Core.Handlers
         {
             return _userEvents.TryGetValue(userId, out var events) ? events : new List<(string eventMessage, DateTime scheduleTime)>();
         }
+
+
+        public void DeleteUserEvent(long userId, int index)
+        {
+            if (_userEvents.ContainsKey(userId))
+            {
+                var events = _userEvents[userId];
+                if (index >= 0 && index < events.Count)
+                {
+                    events.RemoveAt(index);
+                    if (events.Count == 0)
+                    {
+                        _userEvents.Remove(userId);
+                    }
+                }
+            }
+        }
+
     }
 }
