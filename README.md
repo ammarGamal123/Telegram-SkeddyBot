@@ -60,5 +60,5 @@ The project is organized into several key components:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/ammarGamal123/Skeddybot.git
+   git clone https://github.com/ammarGamal123/Telegram-Skeddybot.git
    cd Skeddybot
