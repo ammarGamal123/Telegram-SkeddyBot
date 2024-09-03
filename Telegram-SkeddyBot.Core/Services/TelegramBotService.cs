@@ -12,12 +12,21 @@ using Telegram_SkeddyBot.Core.Helpers;
 
 namespace Telegram_SkeddyBot.Core.Services
 {
+    /// <summary>
+    /// Provides services for managing and running the Telegram bot.
+    /// </summary>
     public class TelegramBotService : ITelegramBotService
     {
         private readonly ITelegramBotClient _botClient;
         private readonly CommandHandler _commandHandler;
         private readonly UserStateHandler _userStateHandler;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TelegramBotService"/> class.
+        /// </summary>
+        /// <param name="botClient">The bot client used to interact with the Telegram API.</param>
+        /// <param name="commandHandler">The handler for processing bot commands.</param>
+        /// <param name="userStateHandler">The handler for managing user states.</param>
         public TelegramBotService(ITelegramBotClient botClient, CommandHandler commandHandler, UserStateHandler userStateHandler)
         {
             _botClient = botClient;
@@ -25,6 +34,10 @@ namespace Telegram_SkeddyBot.Core.Services
             _userStateHandler = userStateHandler;
         }
 
+        /// <summary>
+        /// Starts the bot and begins receiving updates from Telegram.
+        /// </summary>
+        /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
         public async Task StartBotAsync(CancellationToken cancellationToken)
         {
             var receiverOptions = new ReceiverOptions
@@ -44,6 +57,12 @@ namespace Telegram_SkeddyBot.Core.Services
             await Task.Delay(Timeout.Infinite, cancellationToken);
         }
 
+        /// <summary>
+        /// Handles incoming updates from Telegram.
+        /// </summary>
+        /// <param name="botClient">The bot client used to interact with the Telegram API.</param>
+        /// <param name="update">The update received from Telegram.</param>
+        /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
         private async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             if (update.Type == UpdateType.Message && update.Message?.From != null)

@@ -10,12 +10,21 @@ using Telegram_SkeddyBot.Core.Contracts;
 
 namespace Telegram_SkeddyBot.Core.Helpers
 {
+    /// <summary>
+    /// Handles various bot commands issued by users, such as starting, adding, listing, or deleting reminders.
+    /// </summary>
     public class CommandHandler
     {
         private readonly UserStateHandler _userStateHandler;
         private readonly MessageHandler _messageHandler;
         private readonly ValidationHander _validationHandler;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandHandler"/> class with the specified handlers.
+        /// </summary>
+        /// <param name="userStateHandler">Handler for managing user states.</param>
+        /// <param name="messageHandler">Handler for sending messages to the user.</param>
+        /// <param name="validationHandler">Handler for validating user inputs.</param>
         public CommandHandler(UserStateHandler userStateHandler, MessageHandler messageHandler, ValidationHander validationHandler)
         {
             _userStateHandler = userStateHandler;
@@ -23,6 +32,13 @@ namespace Telegram_SkeddyBot.Core.Helpers
             _validationHandler = validationHandler;
         }
 
+        /// <summary>
+        /// Handles the /start command by sending a welcome message to the user.
+        /// </summary>
+        /// <param name="botClient">The Telegram bot client.</param>
+        /// <param name="chatId">The chat ID where the command was received.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task HandleStartCommandAsync(ITelegramBotClient botClient, long chatId, CancellationToken cancellationToken)
         {
             string welcomeMessage = "Welcome to the bot! Use the following commands to interact:\n" +
@@ -33,12 +49,28 @@ namespace Telegram_SkeddyBot.Core.Helpers
             await _messageHandler.SendTextMessageAsync(botClient, chatId, welcomeMessage, null, cancellationToken);
         }
 
+        /// <summary>
+        /// Handles the /help command by sending a help message detailing available commands.
+        /// </summary>
+        /// <param name="botClient">The Telegram bot client.</param>
+        /// <param name="chatId">The chat ID where the command was received.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task HandleHelpCommandAsync(ITelegramBotClient botClient, long chatId, CancellationToken cancellationToken)
         {
             string helpMessage = GetHelpMessage();
             await _messageHandler.SendTextMessageAsync(botClient, chatId, helpMessage, null, cancellationToken);
         }
 
+        /// <summary>
+        /// Handles the /add command by managing the process of adding a new event or reminder.
+        /// </summary>
+        /// <param name="botClient">The Telegram bot client.</param>
+        /// <param name="chatId">The chat ID where the command was received.</param>
+        /// <param name="userId">The ID of the user who issued the command.</param>
+        /// <param name="message">The message content provided by the user.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task HandleAddCommandAsync(ITelegramBotClient botClient, long chatId, long userId, string message, CancellationToken cancellationToken)
         {
             var state = _userStateHandler.GetUserState(userId);
@@ -93,6 +125,10 @@ namespace Telegram_SkeddyBot.Core.Helpers
             }
         }
 
+        /// <summary>
+        /// Retrieves the help message containing a list of available commands and their descriptions.
+        /// </summary>
+        /// <returns>A string containing the help message.</returns>
         private string GetHelpMessage()
         {
             return @"
@@ -111,6 +147,14 @@ namespace Telegram_SkeddyBot.Core.Helpers
                 /list - get a list of your reminders";
         }
 
+        /// <summary>
+        /// Handles the /list command by displaying a list of upcoming events or reminders to the user.
+        /// </summary>
+        /// <param name="botClient">The Telegram bot client.</param>
+        /// <param name="chatId">The chat ID where the command was received.</param>
+        /// <param name="userId">The ID of the user who issued the command.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task HandleListCommandAsync(ITelegramBotClient botClient, long chatId, long userId, CancellationToken cancellationToken)
         {
             var userEvents = _userStateHandler.GetUserEvents(userId);
@@ -130,6 +174,13 @@ namespace Telegram_SkeddyBot.Core.Helpers
             }
         }
 
+        /// <summary>
+        /// Handles callback queries from inline keyboard buttons, managing actions such as editing or continuing with the event creation process.
+        /// </summary>
+        /// <param name="botClient">The Telegram bot client.</param>
+        /// <param name="callbackQuery">The callback query received from the user.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task HandleCallbackQueryAsync(ITelegramBotClient botClient, CallbackQuery callbackQuery, CancellationToken cancellationToken)
         {
             var userId = callbackQuery.From.Id;
@@ -174,7 +225,14 @@ namespace Telegram_SkeddyBot.Core.Helpers
             await botClient.AnswerCallbackQueryAsync(callbackQuery.Id, cancellationToken: cancellationToken);
         }
 
-
+        /// <summary>
+        /// Handles the /delete command, allowing users to delete existing events or reminders.
+        /// </summary>
+        /// <param name="botClient">The Telegram bot client.</param>
+        /// <param name="chatId">The chat ID where the command was received.</param>
+        /// <param name="userId">The ID of the user who issued the command.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task HandleDeleteCommandAsync(ITelegramBotClient botClient, long chatId, long userId, string message, CancellationToken cancellationToken)
         {
             // Step 1: If the list is empty, notify the user
@@ -189,13 +247,12 @@ namespace Telegram_SkeddyBot.Core.Helpers
 
             // Step 2: If there are events, display them with inline keyboard options
             var inlineKeyboardsButtons = userEvents.Select((userEvent, index) =>
-            InlineKeyboardButton.WithCallbackData($"{userEvent.eventMessage} at {userEvent.scheduleTime} ", $"delete {index}"))
+                InlineKeyboardButton.WithCallbackData($"{userEvent.eventMessage} at {userEvent.scheduleTime} ", $"delete {index}"))
                 .ToArray();
 
             var inlineKeyboard = new InlineKeyboardMarkup(inlineKeyboardsButtons);
 
             await _messageHandler.SendTextMessageAsync(botClient, chatId, "Please select event to delete", inlineKeyboard, cancellationToken);
         }
-
     }
 }
